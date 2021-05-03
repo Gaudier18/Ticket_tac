@@ -19,7 +19,7 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
       with:
         source: "."
-        target: "/var/www/ticket-tac/developpement/api"
+        target: "/var/www/developpement/ticket-tac/api"
 
     - name: Executing remote command
       uses: appleboy/ssh-action@master
