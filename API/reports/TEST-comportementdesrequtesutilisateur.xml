@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites>
-<testsuite name="comportement des requêtes utilisateur" errors="0" tests="1" failures="0" time="0.11" timestamp="2021-05-03T11:32:30">
-  <testcase classname="comportement des requêtes utilisateur" name="essaye de créer un compte, puis de le supprimer" time="0.11"></testcase>
-</testsuite>
-</testsuites>
