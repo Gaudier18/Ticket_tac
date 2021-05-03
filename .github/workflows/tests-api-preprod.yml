@@ -29,8 +29,12 @@ jobs:
     - name: Create env file
       run: |
           touch .env
-          echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
-          echo API_KEY=${{ secrets.API_KEY }} >> .env
+          echo NODE_ENV="preprod" >> .env
+          echo PORT="3000" >> .env
+          echo BDD="ticket_tac_preprod" >> .env
+          echo UTILISATEUR="ticket_tac_preprod_utilisateur" >> .env
+          echo MOT_DE_PASSE="K7dqWiq433LV6v7D4ckJ" >> .env
+          echo API_URL="https://api-preprod.thomasnourry.com" >> .env
           cat .env
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
