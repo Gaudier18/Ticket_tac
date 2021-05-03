@@ -35,7 +35,7 @@ jobs:
           echo UTILISATEUR="ticket_tac_preprod_utilisateur" >> .env
           echo MOT_DE_PASSE="K7dqWiq433LV6v7D4ckJ" >> .env
           echo API_URL="127.0.0.1" >> .env
-          echo BDD_URL="https://thomasnourry.com" >> .env
+          echo BDD_URL="https://api-preprod.thomasnourry.com" >> .env
           cat .env
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
