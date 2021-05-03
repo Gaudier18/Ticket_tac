@@ -13,9 +13,20 @@ jobs:
 
   deploiement:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Déploiement de l'API en développement
+    - name: Copie du répertoire de l'api
+      uses: appleboy/scp-action@master
+      env:
+        host: ${{ secrets.SERVEUR_SSH }}
+        username: ${{ secrets.UTILISATEUR_SSH }}
+        key: ${{ secrets.CLE_SSH }}
+        port: ${{ secrets.PORT_SSH }}
+      with:
+        source: "."
+        target: "/var/www/developpement/ticket-tac/api"
+        
+    - name: Redémaragge de l'API
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SERVEUR_SSH }}
@@ -23,13 +34,10 @@ jobs:
         key: ${{ secrets.CLE_SSH }}
         port: ${{ secrets.PORT_SSH }}
         script: |
-          cd ~/node-github-demo
-          git pull origin master
-          npm install --production
-          pm2 restart node-app
-          
+          systemctl restart ticket-tac-api-dev.service
+        
   test:
-
+    needs: [deploiement]
     runs-on: ubuntu-latest
 
     strategy:
