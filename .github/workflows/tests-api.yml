@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ Production, Preproduction ]
 
+defaults:
+  run:
+    working-directory: API
 jobs:
   build:
 
