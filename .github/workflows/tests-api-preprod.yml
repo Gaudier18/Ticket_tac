@@ -5,9 +5,9 @@ name: API - CI
 
 on:
   push:
-    branches: [ Production, Preproduction ]
+    branches: [ Preproduction ]
   pull_request:
-    branches: [ Production, Preproduction ]
+    branches: [ Preproduction ]
 
 defaults:
   run:
