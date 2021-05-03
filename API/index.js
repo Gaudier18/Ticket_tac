@@ -61,7 +61,7 @@ const port = normalisation_port(process.env.PORT || '3000');
 app.set('port', port);
 
 // Gestion des erreurs
-const gestion_erreur = erreur => {
+const gestion_erreur = erreur => { 
   if (erreur.syscall !== 'listen') {
     throw erreur;
   }
