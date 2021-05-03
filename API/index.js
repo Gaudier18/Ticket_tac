@@ -62,7 +62,7 @@ app.set('port', port);
 
 // Gestion des erreurs
 const gestion_erreur = erreur => {
-  if (erreur.syscall !== 'listen') { 
+  if (erreur.syscall !== 'listen') {
     throw erreur;
   }
   const adresse = serveur.address();

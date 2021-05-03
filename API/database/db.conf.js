@@ -18,6 +18,7 @@ const MOT_DE_PASSE = process.env.MOT_DE_PASSE == undefined ? "postgres" : proces
 // Connexion à la base de données et définition des propriétés par défaut pour les models
 const sequelize = new Sequelize(BDD, UTILISATEUR, MOT_DE_PASSE,{
     host: BDD_URL,
+	port:5432,
     dialect: 'postgres',
     define: {
         timestamps: false,
