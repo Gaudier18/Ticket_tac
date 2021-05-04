@@ -39,6 +39,8 @@ jobs:
        PORT: ${{ secrets.PORT }}
        KEY: ${{ secrets.SSHKEY }}
        script: |
+        cd /var/www/preproduction/ticket-tac/api/
+        npm install
         systemctl stop ticket-tac-api-preprod.service
         systemctl start ticket-tac-api-preprod.service --no-block
   
