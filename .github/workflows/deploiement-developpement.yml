@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Copie du repertoire via SCP
+    - name: Déploiement de l'api
       uses: appleboy/scp-action@master
       env:
         HOST: ${{ secrets.HOST }}
@@ -23,24 +23,32 @@ jobs:
         source: "api/*"
         target: "/var/www/developpement/ticket-tac/api"
         strip_components: 1
-
-    - name: Execution de commandes
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-        script: ls
         
   deploiement-client:
 
     runs-on: ubuntu-latest
-
+    env:
+      working-directory: ./client
+   
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1 
+      with:
+        node-version: '14.x'
 
-    - name: Copie du repertoire via SCP
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - run: npm install
+      working-directory: ${{env.working-directory}}
+    - run: ng build --configuration=dev
+      working-directory: ${{env.working-directory}}
+    
+    - name: Déploiement du client
       uses: appleboy/scp-action@master
       env:
         HOST: ${{ secrets.HOST }}
@@ -48,16 +56,8 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
       with:
-        source: "client/*"
+        source: "./dist/client/"
         target: "/var/www/developpement/ticket-tac/client"
-        strip_components: 1
+        strip_components: 3
 
-    - name: Execution de commandes
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-        script: ls
 
