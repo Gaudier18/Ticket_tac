@@ -13,10 +13,12 @@ const express = require('express');
 const expressJwt = require("express-jwt");
 const db = require("./database/index");
 const jwtConf = require("./config/jwt.conf");
+const dotenv = require("dotenv");
+dotenv.config();
 const cors = require('cors');
-const clef_prive = fs.readFileSync('/etc/letsencrypt/live/api.thomasnourry.com/privkey.pem', 'utf8');
-const certificat = fs.readFileSync('/etc/letsencrypt/live/api.thomasnourry.com/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/api.thomasnourry.com/chain.pem', 'utf8');
+const clef_prive = fs.readFileSync('/etc/letsencrypt/live/'+process.env.CHEMIN_CERTS+'/privkey.pem', 'utf8');
+const certificat = fs.readFileSync('/etc/letsencrypt/live/'+process.env.CHEMIN_CERTS+'/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/'+process.env.CHEMIN_CERTS+'/chain.pem', 'utf8');
 
 const credits = {
 	key: clef_prive,
