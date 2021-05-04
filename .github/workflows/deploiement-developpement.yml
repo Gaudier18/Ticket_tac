@@ -24,6 +24,21 @@ jobs:
         target: "/var/www/developpement/ticket-tac/api"
         strip_components: 1
         
+  relancement-api:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Redémaragge de l'API
+      uses: appleboyssh-action@master
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+      with:
+        script : |
+          systemctl stop ticket-tac-api-dev.service
+          systemctl start ticket-tac-api-dev.service
+  
   deploiement-client:
 
     runs-on: ubuntu-latest
