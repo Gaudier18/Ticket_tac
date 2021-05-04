@@ -87,7 +87,7 @@ jobs:
       working-directory: ${{env.working-directory}}
     - run: ng test --watch=false
       working-directory: ${{env.working-directory}}
-    - run: ng build --configuration=dev
+    - run: ng build --configuration=preprod
       working-directory: ${{env.working-directory}}
     
     - name: Déploiement du client
