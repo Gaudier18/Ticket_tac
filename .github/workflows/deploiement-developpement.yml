@@ -25,7 +25,7 @@ jobs:
         strip_components: 1
         
   relancement-api:
-
+    needs: [deploiement-api]
     runs-on: ubuntu-latest
 
     steps:
@@ -39,12 +39,12 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
       with:
-        script: |
-          systemctl stop ticket-tac-api-dev.service
-          systemctl start ticket-tac-api-dev.service
+       script: |
+        whoami
+        ls -al
   
   deploiement-client:
-
+    needs: [relancement-api]
     runs-on: ubuntu-latest
     env:
       working-directory: ./client
