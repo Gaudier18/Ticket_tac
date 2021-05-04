@@ -40,6 +40,7 @@ jobs:
        KEY: ${{ secrets.SSHKEY }}
        script: |
         systemctl stop ticket-tac-api-dev.service
+        systemctl start ticket-tac-api-dev.service
   
   deploiement-client:
     needs: [relancement-api]
