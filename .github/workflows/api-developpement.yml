@@ -20,7 +20,7 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
       with:
-        source: "api/*"
+        source: "*"
         target: "/var/www/developpement/ticket-tac/api"
 
     - name: Execution de commandes
