@@ -42,6 +42,25 @@ jobs:
         systemctl stop ticket-tac-api-dev.service
         systemctl start ticket-tac-api-dev.service --no-block
   
+  test-api:
+    needs: [relancement-api]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Tests de l'api
+      uses: appleboy/ssh-action@master
+      with:
+       HOST: ${{ secrets.HOST }}
+       USERNAME: ${{ secrets.USERNAME }}
+       PORT: ${{ secrets.PORT }}
+       KEY: ${{ secrets.SSHKEY }}
+       script: |
+        cd /var/www/developpement/ticket-tac/api/
+        npm test
+        
+  
   deploiement-client:
     needs: [relancement-api]
     runs-on: ubuntu-latest
