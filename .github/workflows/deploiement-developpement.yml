@@ -62,7 +62,7 @@ jobs:
         
   
   deploiement-client:
-    needs: [relancement-api]
+    needs: [test-api]
     runs-on: ubuntu-latest
     env:
       working-directory: ./client
