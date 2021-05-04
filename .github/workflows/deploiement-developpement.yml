@@ -39,6 +39,8 @@ jobs:
        PORT: ${{ secrets.PORT }}
        KEY: ${{ secrets.SSHKEY }}
        script: |
+        cd /var/www/developpement/ticket-tac/api/
+        npm install
         systemctl stop ticket-tac-api-dev.service
         systemctl start ticket-tac-api-dev.service --no-block
   
