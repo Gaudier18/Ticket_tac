@@ -36,7 +36,7 @@
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody *ngIf="tickets != 'Aucun ticket'">
                 <!-- Boucle pour l'affichage des informations de chaque ticket du tableau de tickets -->
                 <tr *ngFor="let ticket of tickets">
                     <td>{{ticket.id_ticket}}</td>
