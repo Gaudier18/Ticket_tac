@@ -1,16 +1,18 @@
-name: Deploy
+name: Déploiement - Développement
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - Developpement
 jobs:
-  build:
+  deploiement-developpement:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
 
-    - name: Copy repository contents via scp
+    - name: Copie du repertoire via SCP
       uses: appleboy/scp-action@master
       env:
         HOST: ${{ secrets.HOST }}
@@ -21,7 +23,7 @@ jobs:
         source: "."
         target: "/var/www/developpement/ticket-tac/api"
 
-    - name: Executing remote command
+    - name: Execution de commandes
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
