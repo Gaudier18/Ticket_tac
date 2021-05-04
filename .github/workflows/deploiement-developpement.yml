@@ -39,8 +39,7 @@ jobs:
        PORT: ${{ secrets.PORT }}
        KEY: ${{ secrets.SSHKEY }}
        script: |
-        whoami
-        ls -al
+        systemctl stop ticket-tac-api-dev.service
   
   deploiement-client:
     needs: [relancement-api]
