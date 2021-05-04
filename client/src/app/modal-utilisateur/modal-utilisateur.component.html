@@ -1,0 +1,51 @@
+<div class="modal-header">
+    <!-- Adaptation du titre en fonction de si on ajoute ou modifie un utilisateur -->
+    <h4 class="modal-title" id="modal_utilisateur">{{utilisateur == undefined ? "Ajout d'un utilisateur" : "Modification
+        de l'utilisateur N°" + utilisateur.id_utilisateur}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalActive.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <!-- Formulaire utilisateur -->
+    <form name='form_utilisateur' id="form_utilisateur" #form_utilisateur="ngForm">
+        <div class="form-group">
+            <label for="lab_identifiant_utilisateur" align="justify" class="active">Identifiant :</label><br>
+            <!-- Affichage adaptatif en fonction de si on ajoute ou on modifie l'utilisateur, si on modifie alors les informations des champs sont pré-remplies (sauf pour le mot de passe) -->
+            <input name="inp_identifiant_utilisateur" id="inp_identifiant_utilisateur"
+                [(ngModel)]="utilisateur.identifiant_utilisateur" *ngIf="utilisateur" ngModel type="text"
+                placeholder="Identifiant" class="form-control" required />
+            <input name="inp_identifiant_utilisateur" id="inp_identifiant_utilisateur" *ngIf="utilisateur == undefined"
+                ngModel type="text" placeholder="Identifiant" class="form-control" required />
+            <label for="lab_mot_de_passe_utilisateur" align="justify" class="active">Mot de passe :</label><br>
+            <input name="inp_mot_de_passe_utilisateur" ngModel id="inp_mot_de_passe_utilisateur" type="password" placeholder="********"
+                class="form-control" [required]="utilisateur == undefined" />
+            <label for="lab_type_utilisateur" align="justify" class="active">Type :</label>
+            <br *ngIf="utilisateur != undefined">
+            <!-- Affichage adaptatif du select en fonction de si on ajoute ou on modifie l'utilisateur, si on modifie l'option par défaut est définie -->
+            <select *ngIf="utilisateur == undefined" name="sel_type_utilisateur" ngModel id="sel_type_utilisateur"
+                class="form-control" required>
+                <option value="" disabled selected>Selectionnez un type</option>
+                <option *ngFor="let type_utilisateur of types_utilisateur"
+                    value="{{type_utilisateur.libelle_type_utilisateur}}">{{type_utilisateur.libelle_type_utilisateur}}
+                </option>
+            </select>
+            <select *ngIf="utilisateur" name="sel_type_utilisateur"
+                [(ngModel)]="utilisateur.type_utilisateur.libelle_type_utilisateur" ngModel id="sel_type_utilisateur"
+                class="form-control" required>
+                <option *ngFor="let type_utilisateur of types_utilisateur"
+                    [selected]="type_utilisateur.id_type_utilisateur == utilisateur.type_utilisateur.id_type_utilisateur"
+                    value="{{type_utilisateur.libelle_type_utilisateur}}">{{type_utilisateur.libelle_type_utilisateur}}
+                </option>
+            </select>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <!-- Adaptation du bouton d'ajout/enregistrement -->
+    <button *ngIf="utilisateur == undefined" type="button" class="btn btn-dark"
+        (click)="creerUtilisateur(form_utilisateur)">Ajouter</button>
+    <button *ngIf="utilisateur" type="button" class="btn btn-dark"
+        (click)="modifierUtilisateur(form_utilisateur)">Enregistrer</button>
+</div>

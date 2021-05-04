@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <!-- Affichage adaptif du titre de la modal en fonction de l'élément envoyé -->
+    <h4 class="modal-title" *ngIf="element && element.id_ticket != undefined" id="modal-supp-element">Suppression d'un ticket</h4>
+    <h4 class="modal-title" *ngIf="element && element.id_utilisateur != undefined" id="modal-supp-element">Suppression d'un utilisateur</h4>
+    <button type="button" class="close" aria-describedby="modal-title" (click)="modalActive.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p>
+        <!-- Affichage adaptif de la description de la modal en fonction de l'élément envoyé -->
+        <strong *ngIf="element && element.id_ticket != undefined">Voulez-vous vraiment supprimer le ticket <span class="text-primary">N°{{element.id_ticket}}</span> ?</strong>
+        <strong *ngIf="element && element.id_utilisateur != undefined">Voulez-vous vraiment supprimer l'utilisateur <span class="text-primary">{{element.identifiant_utilisateur}}</span> ?</strong>
+    </p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modalActive.dismiss()">Annuler</button>
+    <!-- Action adaptive du bouton de confirmation en fonction de l'élément envoyé -->
+    <button *ngIf="element && element.id_ticket != undefined" type="button" class="btn btn-danger" (click)="supprimerTicket()">Confirmer</button>
+    <button *ngIf="element && element.id_utilisateur != undefined" type="button" class="btn btn-danger" (click)="supprimerUtilisateur()">Confirmer</button>
+</div>
