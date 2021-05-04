@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="comportement des requêtes du matériel" errors="0" tests="1" failures="0" time="0.108" timestamp="2021-05-03T11:32:30">
+  <testcase classname="comportement des requêtes du matériel" name="retourne code 200" time="0.108"></testcase>
+</testsuite>
+</testsuites>

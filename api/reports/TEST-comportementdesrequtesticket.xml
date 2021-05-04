@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="comportement des requêtes ticket" errors="0" tests="2" failures="0" time="0.264" timestamp="2021-05-03T11:32:30">
+  <testcase classname="comportement des requêtes ticket" name="retourne code 200" time="0.133"></testcase>
+  <testcase classname="comportement des requêtes ticket" name="essaye de créer un ticket puis de le supprimer" time="0.131"></testcase>
+</testsuite>
+</testsuites>
