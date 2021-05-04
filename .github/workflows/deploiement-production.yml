@@ -1,0 +1,102 @@
+name: Déploiement - Production
+
+on:
+  push:
+    branches:
+      - Production
+jobs:
+  deploiement-api:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Déploiement de l'api
+      uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+      with:
+        source: "api/*"
+        target: "/var/www/production/ticket-tac/api"
+        strip_components: 1
+        
+  relancement-api:
+    needs: [deploiement-api]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Redemarrage de l'api
+      uses: appleboy/ssh-action@master
+      with:
+       HOST: ${{ secrets.HOST }}
+       USERNAME: ${{ secrets.USERNAME }}
+       PORT: ${{ secrets.PORT }}
+       KEY: ${{ secrets.SSHKEY }}
+       script: |
+        cd /var/www/production/ticket-tac/api/
+        npm install
+        systemctl stop ticket-tac-api-prod.service
+        systemctl start ticket-tac-api-prod.service --no-block
+  
+  test-api:
+    needs: [relancement-api]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Tests de l'api
+      uses: appleboy/ssh-action@master
+      with:
+       HOST: ${{ secrets.HOST }}
+       USERNAME: ${{ secrets.USERNAME }}
+       PORT: ${{ secrets.PORT }}
+       KEY: ${{ secrets.SSHKEY }}
+       script: |
+        cd /var/www/production/ticket-tac/api/
+        npm run test
+     
+  deploiement-client:
+    needs: [test-api]
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./client
+   
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1 
+      with:
+        node-version: '14.x'
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+    - run: npm install
+      working-directory: ${{env.working-directory}}
+    - run: npm install -g @angular/cli > /dev/null
+      working-directory: ${{env.working-directory}}
+    - run: ng test --watch=false
+      working-directory: ${{env.working-directory}}
+    - run: ng build --configuration=prod
+      working-directory: ${{env.working-directory}}
+    
+    - name: Déploiement du client
+      uses: appleboy/scp-action@master
+      env:
+        HOST: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+      with:
+        source: "./client/dist/ticket-tac"
+        target: "/var/www/production/ticket-tac/client"
+        strip_components: 4
