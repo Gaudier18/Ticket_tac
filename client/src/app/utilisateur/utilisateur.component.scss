@@ -1,0 +1,30 @@
+.main_conteneur {
+    max-height: 85vh;
+    min-height: 85vh;
+    background: #f2f2f2;
+    border-radius: 4px;
+    padding: 30px;
+    overflow: auto;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 24%), 0 1px 3px rgb(0 0 0 / 12%);
+    margin-bottom: 30px;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.bouton_deconnexion { 
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 12px;
+    background-image: url("../../assets/bouton_deconnexion.svg");
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    background-position: center;
+    text-align: center;
+}

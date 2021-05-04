@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <!-- Adaptation du titre en fonction de si on ajoute ou modifie un ticket -->
+    <h4 class="modal-title" id="modal_ticket">{{ticket == undefined ? "Ajout d'un ticket" : "Modification du
+        ticket N°" + ticket.id_ticket}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalActive.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body">
+    <!-- Formulaire ticket -->
+    <form name='form_ticket' id="form_ticket" #form_ticket="ngForm">
+        <div class="form-group">
+            <label for="lab_description_ticket" align="justify" class="active">Description :</label><br>
+            <!-- Affichage adaptatif en fonction de si on ajoute ou on modifie le ticket, si on modifie alors les informations des champs sont pré-remplies -->
+            <textarea name="tex_description_ticket" id="tex_description_ticket" type="text" *ngIf="ticket" ngModel
+                [(ngModel)]="ticket.description_ticket" placeholder="Description du ticket" class="form-control"
+                rows="7" required></textarea>
+            <textarea name="tex_description_ticket" id="tex_description_ticket" type="text" *ngIf="ticket == undefined"
+                ngModel placeholder="Description du ticket" class="form-control" rows="7" required></textarea>
+            <label for="lab_materiel" align="justify" class="active">Type de matériel :</label><br>
+            <ng-multiselect-dropdown [placeholder]="'Choisir du materiel'" [settings]="sel_materiels_params"
+                [data]="materiels" name="sel_type_materiel" [(ngModel)]="materiels_selectionnes"
+                (onSelect)="onMaterielSelect($event)">
+            </ng-multiselect-dropdown>
+            <!-- Affichage du select uniquement si on est en modification de ticket (à l'ajout l'état du ticket est toujours initié à la même valeur) -->
+            <br *ngIf="ticket != undefined">
+            <label for="lab_etat_ticket" *ngIf="ticket != undefined" align="justify" class="active">Etat :</label><br>
+            <select name="sel_etat_ticket" id="sel_etat_ticket" *ngIf="ticket != undefined"
+                [(ngModel)]="ticket.libelle_etat_ticket" ngModel required class="form-control">
+                <option *ngFor="let etat_ticket of etats_ticket"
+                    [selected]="etat_ticket.id_etat_ticket == ticket.fk_etat_ticket"
+                    value="{{etat_ticket.libelle_etat_ticket}}">{{etat_ticket.libelle_etat_ticket}}</option>
+            </select>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <!-- Adaptation du bouton d'ajout/enregistrement -->
+    <button *ngIf="ticket == undefined" type="button" class="btn btn-dark"
+        (click)="creerTicket(form_ticket)">Ajouter</button>
+    <button *ngIf="ticket" type="button" class="btn btn-dark" (click)="modifierTicket(form_ticket)">Enregistrer</button>
+</div>
