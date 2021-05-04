@@ -58,7 +58,7 @@ jobs:
        KEY: ${{ secrets.SSHKEY }}
        script: |
         cd /var/www/developpement/ticket-tac/api/
-        npm test
+        npm run test
         
   
   deploiement-client:
