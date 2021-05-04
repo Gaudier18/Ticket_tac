@@ -84,6 +84,7 @@ jobs:
     - run: npm install -g @angular/cli > /dev/null
       working-directory: ${{env.working-directory}}
     - run: ng test --watch=false
+      working-directory: ${{env.working-directory}}
     - run: ng build --configuration=dev
       working-directory: ${{env.working-directory}}
     
