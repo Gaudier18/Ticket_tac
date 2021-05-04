@@ -58,7 +58,7 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSHKEY }}
       with:
-        source: "./dist/ticket-tac/"
+        source: "./dist"
         target: "/var/www/developpement/ticket-tac/client"
         strip_components: 3
 
