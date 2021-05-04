@@ -60,6 +60,6 @@ jobs:
       with:
         source: "./client/dist/ticket-tac"
         target: "/var/www/developpement/ticket-tac/client"
-        strip_components: 3
+        strip_components: 1
 
 
