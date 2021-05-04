@@ -1,0 +1,40 @@
+<main class="main_connexion">
+    <div class="d-flex justify-content-center div_centree_verticalement">
+        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-3">
+            <div class="card">
+                <div class="card-header">Se connecter</div>
+                <div class="card-body">
+                    <!-- Formulaire de connexion -->
+                    <form #connexionForm="ngForm" (ngSubmit)="connexion(connexionForm)">
+                        <div>
+                            <label>Identifiant</label>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <input type="text" id="inp_identifiant" class="form-control" name="inp_identifiant" ngModel
+                                    required autofocus>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Mot de passe</label>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <input type="password" id="inp_mot_de_passe" class="form-control" name="inp_mot_de_passe" ngModel required>
+                            </div>
+                        </div>
+                        <!-- Affichage des erreurs à la connexion -->
+                        <div class="alert alert-danger" role="alert" *ngIf="erreur != ''">
+                            {{erreur}}
+                        </div>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-primary col-md-10 row">
+                                Connexion
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
