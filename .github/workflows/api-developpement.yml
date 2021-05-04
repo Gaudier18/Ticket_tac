@@ -1,7 +1,9 @@
-name: Deploy
+name: Déploiement - Développement
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - Developpement
 jobs:
   build:
 
