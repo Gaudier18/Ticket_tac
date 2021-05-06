@@ -1,11 +1,11 @@
-name: Déploiement - Développement
+name: Déploiement - Production
 
 on:
   push:
     branches:
-      - Developpement
+      - Production
 jobs:
-  déploiement-api:
+  deploiement-api:
 
     runs-on: ubuntu-latest
 
@@ -21,7 +21,7 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
       with:
         source: "api/*"
-        target: "/var/www/developpement/ticket-tac/api"
+        target: "/var/www/production/ticket-tac/api"
         strip_components: 1
         
   relancement-api:
@@ -31,7 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Redémarrage de l'api
+    - name: Redemarrage de l'api
       uses: appleboy/ssh-action@master
       with:
        HOST: ${{ secrets.HOST }}
@@ -39,12 +39,12 @@ jobs:
        PORT: ${{ secrets.PORT }}
        KEY: ${{ secrets.SSHKEY }}
        script: |
-        cd /var/www/developpement/ticket-tac/api/
+        cd /var/www/production/ticket-tac/api/
         npm install
-        systemctl stop ticket-tac-api-dev.service
-        systemctl start ticket-tac-api-dev.service --no-block
+        systemctl stop ticket-tac-api-prod.service
+        systemctl start ticket-tac-api-prod.service --no-block
   
-  tests-integration-api:
+  test-api:
     needs: [relancement-api]
     runs-on: ubuntu-latest
 
@@ -59,11 +59,11 @@ jobs:
        PORT: ${{ secrets.PORT }}
        KEY: ${{ secrets.SSHKEY }}
        script: |
-        cd /var/www/developpement/ticket-tac/api/
+        cd /var/www/production/ticket-tac/api/
         npm run test
      
   deploiement-client:
-    needs: [tests-integration-api]
+    needs: [test-api]
     runs-on: ubuntu-latest
     env:
       working-directory: ./client
@@ -80,14 +80,13 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-
     - run: npm install
       working-directory: ${{env.working-directory}}
     - run: npm install -g @angular/cli > /dev/null
       working-directory: ${{env.working-directory}}
     - run: ng test --watch=false
       working-directory: ${{env.working-directory}}
-    - run: ng build --configuration=dev
+    - run: ng build --configuration=production
       working-directory: ${{env.working-directory}}
     
     - name: Déploiement du client
@@ -99,7 +98,5 @@ jobs:
         KEY: ${{ secrets.SSHKEY }}
       with:
         source: "./client/dist/ticket-tac"
-        target: "/var/www/developpement/ticket-tac/client"
+        target: "/var/www/production/ticket-tac/client"
         strip_components: 4
-
-
