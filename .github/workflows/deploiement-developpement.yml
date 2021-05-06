@@ -31,7 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Redemarrage de l'api
+    - name: Redémarrage de l'api
       uses: appleboy/ssh-action@master
       with:
        HOST: ${{ secrets.HOST }}
@@ -39,10 +39,12 @@ jobs:
        PORT: ${{ secrets.PORT }}
        KEY: ${{ secrets.SSHKEY }}
        script: |
+        cd /var/www/developpement/ticket-tac/api/
+        npm install
         systemctl stop ticket-tac-api-dev.service
         systemctl start ticket-tac-api-dev.service --no-block
   
-  test-intégration-api:
+  tests-integration-api:
     needs: [relancement-api]
     runs-on: ubuntu-latest
 
@@ -60,8 +62,8 @@ jobs:
         cd /var/www/developpement/ticket-tac/api/
         npm run test
      
-  déploiement-client:
-    needs: [test-intégration-api]
+  deploiement-client:
+    needs: [tests-integration-api]
     runs-on: ubuntu-latest
     env:
       working-directory: ./client

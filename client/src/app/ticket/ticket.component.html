@@ -1,7 +1,7 @@
 <div class="container-fluid pt-5">
     <!-- Navigation entre les écrans -->
     <div class="d-flex flex-wrap justify-content-between">
-        <h2>Listes des tickets</h2>
+        <h2>Liste des tickets</h2>
         <!-- Seuls les Techniciens peuvent accéder à la liste des utilisateurs -->
         <a *ngIf="utilisateur_actuel.type_utilisateur && utilisateur_actuel.type_utilisateur.libelle_type_utilisateur == 'Technicien'" (click)="navigation('utilisateurs')"><button class="btn btn-primary">Liste des utilisateurs</button></a>
     </div>
